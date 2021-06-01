@@ -1,9 +1,9 @@
 -- Number of retiring employees and title
 SELECT em.emp_no, 
-		em.first_name, 
+	em.first_name, 
     	em.last_name,
-	    em.birth_date,
-	    ti.title, 
+	em.birth_date,
+	ti.title, 
         ti.from_date, 
         ti.to_date
 	INTO retiring_emp_by_title
@@ -15,9 +15,9 @@ SELECT em.emp_no,
 
 -- Use Dictinct with Orderby to remove duplicate rows
 SELECT DISTINCT ON (emp_no) emp_no,
-		first_name,
-		last_name,
-		title
+	first_name,
+	last_name,
+	title
 	INTO emp_unique_titles
 	FROM retiring_emp_by_title
 	ORDER BY emp_no ASC, to_date DESC;
