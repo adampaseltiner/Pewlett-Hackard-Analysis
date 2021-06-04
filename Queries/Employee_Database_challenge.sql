@@ -1,11 +1,11 @@
 -- Number of retiring employees and title
 SELECT em.emp_no, 
 		em.first_name, 
-    	em.last_name,
-	    em.birth_date,
-	    ti.title, 
-        ti.from_date, 
-        ti.to_date
+		em.last_name,
+		em.birth_date,
+		ti.title, 
+		ti.from_date, 
+		ti.to_date
 	INTO retiring_emp_by_title
 	FROM employees AS em
 	LEFT JOIN titles as ti
