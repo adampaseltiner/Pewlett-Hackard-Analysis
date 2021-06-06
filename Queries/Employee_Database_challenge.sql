@@ -47,3 +47,18 @@ SELECT DISTINCT ON (em.emp_no)
 	WHERE (em.birth_date BETWEEN '1965-01-01' AND '1965-12-31')
 	AND (de.to_date = '9999-01-01')
 	ORDER BY em.emp_no;
+
+SELECT DISTINCT ON (emp_no) emp_no,
+		first_name,
+		last_name,
+		title
+	INTO mentor_unique_titles
+	FROM mentor_eligible
+	ORDER BY emp_no ASC, to_date DESC;
+
+-- Eligible mentors by title
+SELECT COUNT (title), title
+	INTO mentor_title
+	FROM mentor_unique_titles
+	GROUP BY title
+	ORDER BY COUNT(title) DESC;

@@ -221,3 +221,46 @@ SELECT *
 INTO mentor_info
 FROM dept_info
 WHERE dept_name IN ('Sales', 'Development');
+
+-- Number of retiring employees by dept
+SELECT DISTINCT ON(emp_no) emp_no, dept_no, to_date
+INTO dept_retiring
+FROM dept_emp
+ORDER BY emp_no ASC, to_date DESC;
+
+SELECT un.emp_no, un.title, de.dept_no, de.to_date, du.dept_name
+INTO dept_unique
+FROM emp_unique_titles AS un
+LEFT JOIN dept_retiring AS de
+ON un.emp_no = de.emp_no
+LEFT JOIN departments as du
+ON de.dept_no = du.dept_no;
+
+SELECT COUNT(emp_no) AS emp_count, dept_name
+FROM dept_unique
+GROUP BY dept_name
+ORDER BY emp_count DESC;
+
+-- Retiring employee salaries
+SELECT ut.emp_no,
+	ut.first_name,
+	ut.last_name,
+	ut.title,
+	d.dept_name,
+	sl.salary
+INTO retiring_salaries
+FROM emp_unique_titles AS ut
+	INNER JOIN dept_emp AS de
+		ON (ut.emp_no = de.emp_no)
+	INNER JOIN departments AS d
+		ON (de.dept_no = d.dept_no)
+	INNER JOIN salaries AS sl
+		ON (ut.emp_no = sl.emp_no)
+ORDER BY ut.emp_no;
+
+-- Retiring employee salaries by department
+SELECT SUM (salary), dept_name
+INTO retiring_salary
+FROM retiring_salaries
+GROUP BY dept_name
+ORDER BY SUM DESC;
